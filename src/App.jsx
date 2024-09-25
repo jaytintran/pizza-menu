@@ -5,23 +5,56 @@ import pizzaData from "./data.js";
 function Header() {
   return (
     <div>
-      <h1>Pizza</h1>
+      <h1>Fast Pizza Restaurant</h1>
       <p>What's up?</p>
       <h2>Pizza Menu</h2>
     </div>
   );
 }
 
-function Pizza({ pizza }) {
+function Menu() {
   return (
     <div>
-      {/* Pizza Card */}
-      <div>
-        <img src={pizza.photoName} alt={pizza.name} />
-        <h2>{pizza.name}</h2>
-        <p>{pizza.ingredients}</p>
-        <p>{pizza.price}</p>
+      <h2>Our Menu</h2>
+      <div className="menu">
+        {pizzaData.map((pizza, id) => {
+          return <PizzaCard key={pizza.name} pizza={pizza} />;
+        })}
       </div>
+    </div>
+  );
+}
+
+function Footer() {
+  const hour = new Date().getHours();
+  let greeting;
+  const openHours = 10;
+  const closeHours = 22;
+  const isOpen = hour >= openHours && hour <= closeHours;
+
+  if (hour < 12) {
+    greeting = "Good Morning";
+  } else if (hour < 18) {
+    greeting = "Good Afternoon";
+  }
+
+  isOpen ? alert("We're open") : alert("We're closed");
+
+  return (
+    <footer>
+      {new Date().getHours()} {greeting}{" "}
+      {isOpen ? "We're open" : "We're closed"}
+    </footer>
+  );
+}
+
+function PizzaCard({ pizza }) {
+  return (
+    <div>
+      <img src={pizza.photoName} />
+      <h2>{pizza.name}</h2>
+      <h3>{pizza.ingredients}</h3>
+      <p>Price: ${pizza.price}</p>
     </div>
   );
 }
@@ -30,9 +63,8 @@ function App() {
   return (
     <>
       <Header />
-      <Pizza pizza={pizzaData[0]} />;
-      <Pizza pizza={pizzaData[1]} />;
-      <Pizza pizza={pizzaData[2]} />;
+      <Menu />
+      <Footer />
     </>
   );
 }
